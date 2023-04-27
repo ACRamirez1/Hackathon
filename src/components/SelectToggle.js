@@ -23,25 +23,31 @@ export default function BasicSelect(props) {
 
   return (
     <div style={{
-        width: '85%'
+        width: '85%',
+        
     }}>
     <Box sx={{ 
+        display: 'flex',
+        justifyContent: 'center',
         minWidth: 120,
         backgroundColor: 'rgb(246,246,239)'
         }} >
       <FormControl fullWidth style={{
+        
         maxWidth: 200,
-        height: '40px',
+        height: '50px',
         margin: '20px 0 0 40px',
         // padding: '0'
       }}>
         <InputLabel id="demo-simple-select-label" 
         style={{
+          
           height: '40px',
           margin: '-7px 0 0 0'
           // padding:  '0'
         }}>Stories</InputLabel>
         <Select style={{
+          
           height: '40px',
           // padding:  '0'
         }}
