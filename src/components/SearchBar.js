@@ -213,8 +213,22 @@ export default function PrimarySearchAppBar() {
       
      </Box>
      
-     <SelectToggle author={author} setAuthor={setAuthor} />
-     <ul>
+     <SelectToggle author={author} setAuthor={setAuthor} 
+    //  x
+     />
+     <ul
+     style={{
+      backgroundColor: 'rgb(246,246,239)',
+      height: '100%',
+      width: '85%',
+      display: 'flex',
+      flexDirection: 'column',
+      // justifyContent: 'center',
+      alignItems: 'center',
+      padding: '20px 0 15px 0',
+      marginTop: '-2px'
+  }}
+     >
       
         {(state.query === '' ? articles.map(article => <ArticleCard key={article.id} article={article} />
         ) : state.list.map(article => <ArticleCard key={article.id} article={article} />
