@@ -38,10 +38,10 @@ function App() {
 
     className="App">
       <SearchBar />
-      <SelectToggle />
+      {/* <SelectToggle articles={articles} /> */}
       {/* <ArticleCard /> */}
       {/* <SearchForm /> */}
-      <ListArticles articles={articles} />
+      {/* <ListArticles articles={articles} /> */}
     </div>
   );
 }

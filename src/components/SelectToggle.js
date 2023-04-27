@@ -5,12 +5,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelect() {
-  const [stories, setStories] = React.useState('');
+export default function BasicSelect(props) {
+  const [stories, setStories] = React.useState(0);
 
   const handleChange = (event) => {
     setStories(event.target.value);
+   
   };
+
+  const dropValue = () => {
+    if(stories === 30) {
+      props.setAuthor(true)
+    } else if(stories !== 30) {
+      props.setAuthor(false)
+    }
+  }
 
   return (
     <div style={{
@@ -40,12 +49,13 @@ export default function BasicSelect() {
           id="demo-simple-select"
           value={stories}
           label="stories"
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
         >
           <MenuItem value={10}>All</MenuItem>
           <MenuItem value={20}>Stories</MenuItem>
           <MenuItem value={30}>Author</MenuItem>
         </Select>
+        {dropValue()}
       </FormControl>
     </Box>
     </div>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,6 +7,8 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import logo from './logo.svg';
+import ArticleCard from './ArticleCard';
+import SelectToggle from './SelectToggle'
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -52,9 +54,63 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function PrimarySearchAppBar() {
+
+  const [author, setAuthor] = useState(false)
+  // if author is clicked then turns to true. if author is true then fetch result from author fetch
+  const [state, setstate] = useState({
+      query: '',
+      list: []
+    })
+  const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+      fetch("https://hn.algolia.com/api/v1/search?tags=front_page")
+        .then(response => response.json())
+        .then(data => setArticles(data.hits));
+        
+  
+    },[])
+  
+    useEffect(() => {
+      console.log('updated', articles);
+    },[articles])
+
+    
+
+  const handleChange = (e) => {
+    
+    setstate({
+      query: e.target.value
+    })
+    console.log(e.target.value, "Author State:", author, "Query:", state.query)
+
+    if(author === true){
+    fetch(`https://hn.algolia.com/api/v1/search?tags=story,author_${e.target.value}`)
+    .then(response => response.json())
+    .then(data => 
+      setstate({
+      list: data.hits
+      }),
+      console.log(state.list));
+      
+    }
+
+
+      const results = articles.filter(articles => {
+        if (e.target.value === "") return articles
+        return articles.title.toLowerCase().includes(e.target.value.toLowerCase())
+      })
+      setstate({
+        list: results
+        })
+      }
+
+      
  
 
   return (
+    <>
+    
     <Box sx={{ 
       width: '85%',
      }}>
@@ -107,9 +163,12 @@ export default function PrimarySearchAppBar() {
             }}>
               <SearchIcon />
             </SearchIconWrapper>
+           
             <StyledInputBase style={{ color: 'black', width: '100%' }}
               placeholder="Search stories by title, url, or author"
               // how do I add the "search by algolia" into the search bar and also flexed to the end?
+              value={state.query} 
+              onChange={(e) => handleChange(e)}
               inputProps={{ 'aria-label': 'search' }}
             />
 
@@ -153,5 +212,14 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       
      </Box>
+     
+     <SelectToggle author={author} setAuthor={setAuthor} />
+     <ul>
+      
+        {(state.query === '' ? articles.map(article => <ArticleCard key={article.id} article={article} />
+        ) : state.list.map(article => <ArticleCard key={article.id} article={article} />
+        ))}
+     </ul>
+     </>
   );
 }
