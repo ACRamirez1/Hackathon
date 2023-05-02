@@ -1,26 +1,26 @@
 import React, { useState, useEffect} from "react";
 import './App.css';
-import ListArticles from "./components/ListArticles";
-import SearchForm from "./components/SearchForm";
+import SearchBar from "./components/SearchBar";
+
 
 
 
 
 function App() {
 
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    fetch("https://hn.algolia.com/api/v1/search?tags=front_page")
-      .then(response => response.json())
-      .then(data => setArticles(data.hits));
-  },[])
-
 
   return (
-    <div className="App">
-      {/* <SearchForm /> */}
-      <ListArticles articles={articles} />
+    <div style={{ 
+      width: '100%', 
+      height: '100%', 
+      backgroundColor:"black",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }}
+
+    className="App">
+      <SearchBar />b
     </div>
   );
 }
